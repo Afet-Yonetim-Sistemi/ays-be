@@ -25,6 +25,13 @@ class PhoneNumberValidator implements ConstraintValidator<PhoneNumber, AysPhoneN
         final String countryCode = phoneNumber.getCountryCode();
         final String lineNumber = phoneNumber.getLineNumber();
 
+        if (!"90".equals(countryCode)) {
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate("must be valid")
+                    .addConstraintViolation();
+            return false;
+        }
+
         if (!StringUtils.hasText(countryCode) || !StringUtils.hasText(lineNumber)) {
             return true;
         }
